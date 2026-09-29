@@ -2,6 +2,8 @@ package Project.employeeManagementSystem.controller;
 
 import java.util.List;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -30,35 +32,36 @@ public class EmployeeController {
     }
 
    @PostMapping("/add")
-public EmployeeResponseDTO createEmployee(@Valid @RequestBody EmployeeRequestDTO employeeRequestDTO) {   
-    return service.createEmployee(employeeRequestDTO);
+public ResponseEntity<EmployeeResponseDTO> createEmployee(@Valid @RequestBody EmployeeRequestDTO employeeRequestDTO) {   
+    return ResponseEntity.status(HttpStatus.CREATED).body(service.createEmployee(employeeRequestDTO));
 }
 
     @GetMapping("/allEmployee")
-    public List<EmployeeResponseDTO> getAllEmployees() {
-        return service.getAllEmployees();
+    public ResponseEntity<List<EmployeeResponseDTO>> getAllEmployees() {
+        return ResponseEntity.ok(service.getAllEmployees());
     }
     
     @GetMapping("/{id}")
-    public EmployeeResponseDTO getEmployeesById(@PathVariable Long id) {
-        return service.getEmployeesById(id);
+    public ResponseEntity<EmployeeResponseDTO> getEmployeesById(@PathVariable Long id) {
+        return ResponseEntity.ok(service.getEmployeesById(id));
     }
 
   @GetMapping("/department/{department}")
-   public List<EmployeeResponseDTO> getByDepartment(@PathVariable String department) {
-    return service.getEmployeesByDepartment(department);
+   public ResponseEntity<List<EmployeeResponseDTO>> getByDepartment(@PathVariable String department) {
+    return ResponseEntity.ok(service.getEmployeesByDepartment(department));
 }
 
         @PutMapping("/{id}")
-    public EmployeeResponseDTO updateEmployee(@PathVariable Long id,
+    public ResponseEntity<EmployeeResponseDTO> updateEmployee(@PathVariable Long id,
                                     @Valid @RequestBody EmployeeRequestDTO employeeRequestDTO) {
-        return service.updateEmployees(id, employeeRequestDTO);
+        return ResponseEntity.ok(service.updateEmployees(id, employeeRequestDTO));
     }
 
       @DeleteMapping("/{id}")
-    public String deleteEmployee(@PathVariable Long id) {
+    public ResponseEntity<String> deleteEmployee(@PathVariable Long id) {
         service.deleteEmployees(id);
-        return "Employee Deleted Successfully";
+        return ResponseEntity.noContent()
+        .build();
     }
     
 }

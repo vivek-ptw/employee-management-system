@@ -16,7 +16,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(ResourceNotFoundException.class)
     public ResponseEntity<String> handleNotFound(ResourceNotFoundException ex) {
      
-        // yahan kya return karna hai socho
+         
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
     }
 
@@ -33,7 +33,6 @@ public ResponseEntity<Map<String, String>> handleValidation(MethodArgumentNotVal
     for (FieldError error : ex.getBindingResult().getFieldErrors()) {
         errors.put(error.getField(), error.getDefaultMessage());
     }
-
     return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errors);
-}
+   }
 }
